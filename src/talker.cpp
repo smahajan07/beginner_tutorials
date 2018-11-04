@@ -27,6 +27,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include <sstream>
+#include "beginner_tutorials/CustomMsgSrv.h"
 
 int main(int argc, char **argv) {
   // initialize node
@@ -35,16 +36,42 @@ int main(int argc, char **argv) {
   ros::NodeHandle n;
   // create publisher
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+  // create service client
+  ros::ServiceClient client = n.serviceClient<beginner_tutorials::CustomMsgSrv>
+      ("custom_message_service");
+  // create an object of the custom msg type
+  beginner_tutorials::CustomMsgSrv srv;
+  std::string inpString("Hakuna Matata!!");
+  if(argc == 1){
+    ROS_WARN_STREAM(
+        "No argument was passed, hence publishing the default string.");
+  }
+  // if argument is passed that means base string needs to be modified
+  else if(argc == 2){
+    ROS_DEBUG_STREAM("Received custom message correctly.");
+    srv.request.inputString = argv[1];
+    if(client.call(srv)){
+      inpString = srv.response.outputString;
+    }
+  }
+  // if multiple arguments were received, inform user of usage and exit
+  else if(argc > 2){
+    ROS_INFO_STREAM(
+        "Usage: talker <custom message string>\n \
+        Note: Put message in double quotes if more than one word.\n \
+        OR No argument required for default string");
+    return 1;
+  }
   ros::Rate loop_rate(10);
   int count = 0;
   while (ros::ok()) {
     // create a message
     std_msgs::String msg;
     std::stringstream ss;
-    ss << "Hakuna Matata!!" << count;
+    ss << inpString << " " << count;
     msg.data = ss.str();
     // display message
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM(msg.data);
     // publish message
     chatter_pub.publish(msg);
     ros::spinOnce();
