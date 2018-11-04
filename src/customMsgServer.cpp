@@ -19,14 +19,14 @@
 
 /**
  *@copyright Copyright (c) 2018 Sarthak Mahajan
- *@file customMsgSrv.cpp
+ *@file customMsgServer.cpp
  *@author Sarthak Mahajan
  *@brief A simple service node that takes input from user and sends it to the
  *talker (publisher) node.
  */
 
 #include "ros/ros.h"
-#include "beginner_tutorials/CustomMsgServer.h"
+#include "beginner_tutorials/CustomMsgSrv.h"
 
 bool callbackCMS(beginner_tutorials::CustomMsgSrv::Request &req,
                  beginner_tutorials::CustomMsgSrv::Response &res) {
