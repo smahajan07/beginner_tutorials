@@ -26,7 +26,7 @@
  */
 
 #include "ros/ros.h"
-#include "beginner_tutorials/CustomMsgSrv.h"
+#include "beginner_tutorials/CustomMsgServer.h"
 
 bool callbackCMS(beginner_tutorials::CustomMsgSrv::Request &req,
                  beginner_tutorials::CustomMsgSrv::Response &res) {
