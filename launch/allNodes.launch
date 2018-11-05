@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- start service node -->
+  <node pkg="beginner_tutorials" name="custom_message_server" type="customMsgServer"/>
+  <!-- start listener node -->
+  <node pkg="beginner_tutorials" name="listener" type="listener" launch-prefix="xterm -e"/>
+  <!-- set arguments for talker node -->
+  <arg name="inpStr" default="Hakuna_Matata!" doc="For more than one word please use _(underscore) between words"/>
+  <arg name="pubRate" default="10" doc="Default value is 10. Provide any value between 0 to 10."/>
+  <!-- start talker node -->
+  <node pkg="beginner_tutorials" name="talker" type="talker" output="screen" args="$(arg inpStr) $(arg pubRate)"/>
+</launch>
