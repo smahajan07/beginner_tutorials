@@ -28,10 +28,17 @@
 #include "ros/ros.h"
 #include "beginner_tutorials/CustomMsgSrv.h"
 
+// Calback function
+/**
+ *@brief Callback function for the service
+ *@param req The request part of the service
+ *@param res The response part of the service
+ *@return true if the response is successful
+ */
 bool callbackCMS(beginner_tutorials::CustomMsgSrv::Request &req,
                  beginner_tutorials::CustomMsgSrv::Response &res) {
-  // TODO(smahajan07): instead of returning the same string \
-  add option to return upper case or camel case of the string
+  // TODO(smahajan07): instead of returning the same string
+  // add option to return upper case or camel case of the string
   res.outputString = req.inputString;
   ROS_INFO_STREAM("Sending response back");
 
