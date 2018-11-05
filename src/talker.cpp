@@ -41,30 +41,44 @@ int main(int argc, char **argv) {
       ("custom_message_service");
   // create an object of the custom msg type
   beginner_tutorials::CustomMsgSrv srv;
-  std::string inpString("Hakuna Matata!!");
+  std::string inpString;
+  int pubRate;
   if(argc == 1){
     ROS_WARN_STREAM(
-        "No argument was passed, hence publishing the default string.");
+        "No argument was passed, hence publishing the default string \
+          at the default publishing rate.");
   }
   // if argument is passed that means base string needs to be modified
-  else if(argc == 2){
-    ROS_DEBUG_STREAM("Received custom message correctly.");
+  else if(argc > 1 && argc <= 3){
+    ROS_DEBUG_STREAM("Received custom message and publishing rate correctly.");
     srv.request.inputString = argv[1];
     if(client.call(srv)){
       inpString = srv.response.outputString;
     }
+    pubRate = atoll(argv[2]);
+    if(pubRate <= 0){
+      ROS_ERROR_STREAM("Publishing rate cannot be zero or negative!");
+
+      return 1;
+    }
   }
   // if multiple arguments were received, inform user of usage and exit
-  else if(argc > 2){
+  else if(argc > 3){
+    ROS_FATAL_STREAM("Please provide appropriate arguments!");
     ROS_INFO_STREAM(
-        "Usage: talker <custom message string>\n \
-        Note: Put message in double quotes if more than one word.\n \
+        "Usage: talker <custom message string> <rate of publishing>\n \
+        Note: If more than one word, please use _ (underscore) between words.\n \
         OR No argument required for default string");
+
     return 1;
   }
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(pubRate);
   int count = 0;
   while (ros::ok()) {
+    if(pubRate > 10){
+      ROS_WARN_STREAM("Rate of publishing is high, other systems \
+        might be affected");
+    }
     // create a message
     std_msgs::String msg;
     std::stringstream ss;
