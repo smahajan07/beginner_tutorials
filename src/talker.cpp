@@ -60,6 +60,8 @@ int main(int argc, char **argv) {
     ROS_WARN_STREAM(
         R"("No argument was passed, hence publishing the default string
             at the default publishing rate.")");
+    inpString = "Hakuna_Matata!";
+    pubRate = 10;
   } else if (argc > 1 && argc <= 3) {
     // if argument is passed that means base string needs to be modified
     ROS_DEBUG_STREAM("Received custom message and publishing rate correctly.");
