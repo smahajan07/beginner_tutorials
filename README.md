@@ -64,7 +64,7 @@ rosrun beginner_tutorials customMsgServer
 ```
 cd <your catkin workspace>
 source devel/setup.bash
-rosservice call /custom_message_service go_terps!!
+rosservice call /custom_message_service go_terps
 # Usage: rosservice call /custom_message_service <word/string of your choice-connected with _>
 ```
 
@@ -94,7 +94,7 @@ source devel/setup.bash
 rosrun beginner_tutorials customMsgServer
 rosrun beginner_tutorials listener
 ```
-3. Terminal 4
+4. Terminal 4
 ```
 cd <your catkin workspace>
 source devel/setup.bash
