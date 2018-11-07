@@ -43,10 +43,10 @@ int main(int argc, char **argv) {
       ("custom_message_service");
   // create an object of the custom msg type
   beginner_tutorials::CustomMsgSrv srv;
-  if (!ros::service::waitForService("custom_message_service")){
+  if (!ros::service::waitForService("custom_message_service")) {
     ROS_FATAL_STREAM("The custom message service isn't active. Try again");
 
-    return 1; 
+    return 1;
   }
   std::string inpString;
   int pubRate;
