@@ -27,6 +27,7 @@
  */
 
 #include <sstream>
+#include <tf/transform_broadcaster.h>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/CustomMsgSrv.h"
@@ -48,6 +49,11 @@ int main(int argc, char **argv) {
 
     return 1;
   }
+  // declare the tf broadcaster
+  static tf::TransformBroadcaster br;
+  // create a tf transform object
+  tf::Transform transform;
+  // input string for publishing
   std::string inpString;
   int pubRate;
   /**
@@ -101,6 +107,11 @@ int main(int argc, char **argv) {
     ROS_INFO_STREAM(msg.data);
     // publish message
     chatter_pub.publish(msg);
+    // setting static values for origin and rotation
+    transform.setOrigin(tf::Vector3(0.0, 1.5, 1.5));
+    transform.setRotation(tf::Quaternion(1, 0.5, 1.5, 0.5));
+    // broadcast the transform of child to parent
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
     ros::spinOnce();
     loop_rate.sleep();
     ++count;
