@@ -9,4 +9,9 @@
   <arg name="pubRate" default="10" doc="Default value is 10. Provide any value between 0 to 10."/>
   <!-- start talker node -->
   <node pkg="beginner_tutorials" name="talker" type="talker" output="screen" args="$(arg inpStr) $(arg pubRate)"/>
+  <!-- record all topics in rosbag -->
+  <arg name="record" default="false"/>
+  <node pkg="rosbag" type="record" name="beg_tutorial_rosbag" 
+  		args="--all -O $(find beginner_tutorials)/results/automatic.bag"
+  		if="$(arg record)" />
 </launch>
