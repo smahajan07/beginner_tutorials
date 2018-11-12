@@ -1,5 +1,7 @@
 Done processing ./src/listener.cpp
-./src/talker.cpp:29:  Found C++ system header after other header. Should be: talker.h, c system, c++ system, other.  [build/include_order] [4]
+./src/customMsgServer.cpp:31:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::CustomMsgSrv::Request &req  [runtime/references] [2]
+./src/customMsgServer.cpp:32:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::CustomMsgSrv::Response &res  [runtime/references] [2]
+Done processing ./src/customMsgServer.cpp
 Done processing ./src/talker.cpp
-Total errors found: 1
+Total errors found: 2
 

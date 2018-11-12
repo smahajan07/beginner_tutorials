@@ -22,11 +22,14 @@
  *@file talker.cpp
  *@author Sarthak Mahajan
  *@brief A simple node that publishes a custom message string
+ *and the user can optionally modify the default message and
+ *publish it at a different rate
  */
 
+#include <sstream>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
-#include <sstream>
+#include "beginner_tutorials/CustomMsgSrv.h"
 
 int main(int argc, char **argv) {
   // initialize node
@@ -35,16 +38,67 @@ int main(int argc, char **argv) {
   ros::NodeHandle n;
   // create publisher
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
-  ros::Rate loop_rate(10);
+  // create service client
+  ros::ServiceClient client = n.serviceClient<beginner_tutorials::CustomMsgSrv>
+      ("custom_message_service");
+  // create an object of the custom msg type
+  beginner_tutorials::CustomMsgSrv srv;
+  if (!ros::service::waitForService("custom_message_service")) {
+    ROS_FATAL_STREAM("The custom message service isn't active. Try again");
+
+    return 1;
+  }
+  std::string inpString;
+  int pubRate;
+  /**
+  * Here we will check the number of arguments received and
+  * will validate if we received the correct number of arguments.
+  * One argument corresponds to the custom message and the other
+  * for the rate of publishing
+  */
+  if (argc == 1) {
+    ROS_WARN_STREAM(
+        R"("No argument was passed, hence publishing the default string
+            at the default publishing rate.")");
+    inpString = "Hakuna_Matata!";
+    pubRate = 10;
+  } else if (argc > 1 && argc <= 3) {
+    // if argument is passed that means base string needs to be modified
+    ROS_DEBUG_STREAM("Received custom message and publishing rate correctly.");
+    srv.request.inputString = argv[1];
+    if (client.call(srv)) {
+      inpString = srv.response.outputString;
+    }
+    pubRate = atoll(argv[2]);
+    if (pubRate <= 0) {
+      ROS_ERROR_STREAM("Publishing rate cannot be zero or negative!");
+
+      return 1;
+    }
+  } else {
+    // if multiple arguments were received, inform user of usage and exit
+    ROS_FATAL_STREAM("Please provide appropriate arguments!");
+    ROS_INFO_STREAM(
+      R"("Usage: talker <custom message string> <rate of publishing>
+        Note: If more than one word, please use _ (underscore) between words.
+        OR No argument required for default string")");
+
+    return 1;
+  }
+  ros::Rate loop_rate(pubRate);
   int count = 0;
   while (ros::ok()) {
+    if (pubRate > 10) {
+      ROS_WARN_STREAM(
+        "Rate of publishing is high, other systems might be affected");
+    }
     // create a message
     std_msgs::String msg;
     std::stringstream ss;
-    ss << "Hakuna Matata!!" << count;
+    ss << inpString << " " << count;
     msg.data = ss.str();
     // display message
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM(msg.data);
     // publish message
     chatter_pub.publish(msg);
     ros::spinOnce();

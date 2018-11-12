@@ -5,7 +5,7 @@ project(beginner_tutorials)
 add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs genmsg)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs message_generation)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -16,16 +16,16 @@ find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs genmsg)
 #  FILES Num.msg)
 
 ## Generate services in the 'srv' folder
-# add_service_files(DIRECTORY srv FILES Service1.srv Service2.srv)
+add_service_files(FILES CustomMsgSrv.srv)
 
 ## Generate added messages and services with any dependencies listed here
 generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES beginner_tutorials
-  CATKIN_DEPENDS roscpp rospy
-  DEPENDS system_lib
+#  INCLUDE_DIRS include
+#  LIBRARIES beginner_tutorials
+#  CATKIN_DEPENDS roscpp rospy
+#  DEPENDS system_lib
 )
 
 include_directories(include ${catkin_INCLUDE_DIRS})
@@ -37,3 +37,7 @@ add_dependencies(talker beginner_tutorials_generate_messages_cpp)
 add_executable(listener src/listener.cpp)
 target_link_libraries(listener ${catkin_LIBRARIES})
 add_dependencies(listener beginner_tutorials_generate_messages_cpp)
+
+add_executable(customMsgServer src/customMsgServer.cpp)
+target_link_libraries(customMsgServer ${catkin_LIBRARIES})
+add_dependencies(customMsgServer beginner_tutorials_generate_messages_cpp)
