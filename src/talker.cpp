@@ -108,7 +108,7 @@ int main(int argc, char **argv) {
     // publish message
     chatter_pub.publish(msg);
     // setting static values for origin and rotation
-    transform.setOrigin(tf::Vector3(0.0, 1.5, 1.5));
+    transform.setOrigin(tf::Vector3(1.5, 1.5, 0.0));
     transform.setRotation(tf::Quaternion(1, 0.5, 1.5, 0.5));
     // broadcast the transform of child to parent
     br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
