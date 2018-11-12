@@ -39,7 +39,7 @@ bool callbackCMS(beginner_tutorials::CustomMsgSrv::Request &req,
                  beginner_tutorials::CustomMsgSrv::Response &res) {
   // TODO(smahajan07): instead of returning the same string
   // add option to return upper case or camel case of the string
-  res.outputString = req.inputString + "| What a choice of string!" ;
+  res.outputString = req.inputString + "| What a choice of string!";
   ROS_INFO_STREAM("Sending response back");
 
   return true;

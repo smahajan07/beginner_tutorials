@@ -26,8 +26,8 @@
  *publish it at a different rate
  */
 
-#include <sstream>
 #include <tf/transform_broadcaster.h>
+#include <sstream>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "beginner_tutorials/CustomMsgSrv.h"
@@ -111,7 +111,8 @@ int main(int argc, char **argv) {
     transform.setOrigin(tf::Vector3(1.5, 1.5, 0.0));
     transform.setRotation(tf::Quaternion(1, 0.5, 1.5, 0.5));
     // broadcast the transform of child to parent
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
+    br.sendTransform(tf::StampedTransform(transform, \
+                    ros::Time::now(), "world", "talk"));
     ros::spinOnce();
     loop_rate.sleep();
     ++count;
