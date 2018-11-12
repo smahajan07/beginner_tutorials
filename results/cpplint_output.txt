@@ -1,7 +1,9 @@
 Done processing ./src/listener.cpp
-./src/customMsgServer.cpp:31:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::CustomMsgSrv::Request &req  [runtime/references] [2]
-./src/customMsgServer.cpp:32:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::CustomMsgSrv::Response &res  [runtime/references] [2]
+./src/customMsgServer.cpp:38:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::CustomMsgSrv::Request &req  [runtime/references] [2]
+./src/customMsgServer.cpp:39:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::CustomMsgSrv::Response &res  [runtime/references] [2]
 Done processing ./src/customMsgServer.cpp
 Done processing ./src/talker.cpp
+Done processing ./test/testTalker.cpp
+Done processing ./test/main.cpp
 Total errors found: 2
 
