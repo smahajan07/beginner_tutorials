@@ -41,3 +41,27 @@ add_dependencies(listener beginner_tutorials_generate_messages_cpp)
 add_executable(customMsgServer src/customMsgServer.cpp)
 target_link_libraries(customMsgServer ${catkin_LIBRARIES})
 add_dependencies(customMsgServer beginner_tutorials_generate_messages_cpp)
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+
+  add_rostest_gtest(
+    testTalker
+    test/allTests.launch
+    test/main.cpp
+    test/testTalker.cpp
+  )
+
+  target_link_libraries(
+    testTalker
+    ${catkin_LIBRARIES}
+  )
+
+  add_dependencies(
+    testTalker
+    talker
+    customMsgServer
+    listener
+    ${catkin_EXPORTED_TARGETS}
+  )
+endif()
